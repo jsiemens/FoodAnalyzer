@@ -14,7 +14,7 @@ namespace FoodAnalyzer
     {
         [FunctionName("FoodAnalyzer")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -24,10 +24,17 @@ namespace FoodAnalyzer
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             name = name ?? data?.name;
+             
+            //var nutrition = await NutritionClient.GetNutrition(name);
+            //var jsonObj = new ResponseObject()
+            //{
+            //    ShouldIEat = new Random().Next() % 2 == 0,
+            //    NutritionInfo = nutrition
+            //};
 
-            return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+            //string json = JsonConvert.SerializeObject(jsonObj);
+
+            return new OkObjectResult(name);
         }
     }
 }
