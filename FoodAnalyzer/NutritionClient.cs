@@ -17,7 +17,7 @@ namespace FoodAnalyzer
         {
         }
 
-        public static async Task<JObject> GetNutrition(string term)
+        public static async Task<GetNutritionResult> GetNutrition(string term)
         {
             string baseUrl = "https://api.edamam.com/api/food-database/parser";
 
@@ -43,11 +43,23 @@ namespace FoodAnalyzer
                 {
                     var foodId = parsed.Parsed[0].Food.FoodId;
                     var details = await GetDetails(foodId);
-                    return details;
+
+                    return new GetNutritionResult()
+                    {
+                        Food = parsed.Parsed[0].Food,
+                        NutritionInfo = details
+                    };
                 }
             }
 
             return null;
+        }
+
+        public class GetNutritionResult
+        {
+            public Food Food { get; set; }
+
+            public JObject NutritionInfo { get; set; }
         }
 
         private static async Task<JObject> GetDetails(string foodId)

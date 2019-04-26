@@ -25,11 +25,12 @@ namespace FoodAnalyzer
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             name = name ?? data?.name;
 
-            var nutrition = await NutritionClient.GetNutrition(name);
+            var result = await NutritionClient.GetNutrition(name);
             var jsonObj = new ResponseObject()
             {
                 ShouldIEat = new Random().Next() % 2 == 0,
-                NutritionInfo = nutrition
+                NutritionInfo = result.NutritionInfo,
+                Food = result.Food
             };
 
             string json = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);

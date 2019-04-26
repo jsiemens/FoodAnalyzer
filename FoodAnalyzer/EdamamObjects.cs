@@ -19,11 +19,23 @@ namespace FoodAnalyzer
 
     public class Food
     {
+        [JsonProperty("foodId")]
         public string FoodId { get; set; }
 
+        [JsonProperty("uri")]
         public string Uri { get; set; }
 
+        [JsonProperty("label")]
         public string Label { get; set; }
+
+        [JsonProperty("category")]
+        public string Category { get; set; }
+
+        [JsonProperty("categoryLabel")]
+        public string CategoryLabel { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; }
     }
 
     public class NutritionRequest

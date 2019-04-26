@@ -11,6 +11,9 @@ namespace FoodAnalyzer
         [JsonProperty("nutritionInfo")]
         public JObject NutritionInfo { get; set; }
 
+        [JsonProperty("food")]
+        public Food Food { get; set; }
+
         public ResponseObject()
         {
         }
