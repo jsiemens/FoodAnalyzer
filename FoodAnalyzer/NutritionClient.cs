@@ -39,14 +39,15 @@ namespace FoodAnalyzer
                 var jobj = JObject.Parse(stringResponse);
                 var parsed = jobj.ToObject<ParseResponse>();
 
-                if (parsed.Parsed?.Any() ?? false)
+                var foodContainer = parsed.Parsed?.FirstOrDefault() ?? parsed.Hints?.FirstOrDefault();
+                if (foodContainer != null)
                 {
-                    var foodId = parsed.Parsed[0].Food.FoodId;
+                    var foodId = foodContainer.Food.FoodId;
                     var details = await GetDetails(foodId);
 
                     return new GetNutritionResult()
                     {
-                        Food = parsed.Parsed[0].Food,
+                        Food = foodContainer.Food,
                         NutritionInfo = details
                     };
                 }

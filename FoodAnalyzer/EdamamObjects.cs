@@ -10,6 +10,8 @@ namespace FoodAnalyzer
         public string Text { get; set; }
 
         public FoodContainer[] Parsed { get; set; }
+
+        public FoodContainer[] Hints { get; set; }
     }
 
     public class FoodContainer
@@ -54,5 +56,65 @@ namespace FoodAnalyzer
 
         [JsonProperty("foodId")]
         public string FoodId { get; set; }
+    }
+
+    public class NutritionInfo
+    {
+        public double Calories { get; set; }
+
+        public string Uri { get; set; }
+
+        public double TotalWeight { get; set; }
+
+        public string[] HealthLabels { get; set; }
+
+        [JsonProperty("totalNutrients")]
+        public Dictionary<string, NutrientDescriptor> Nutrients { get; set; }
+
+        public double Fat => TryGet("FAT");
+
+        public double SaturedFat => TryGet("FASAT");
+
+        public double MonounsaturatedFat => TryGet("FAMS");
+
+        public double PolyunsaturatedFat => TryGet("FAPU");
+
+        public double Carbs => TryGet("CHOCDF");
+
+        public double Sugar => TryGet("SUGAR");
+
+        public double Protein => TryGet("PROCNT");
+
+        public double Sodium => TryGet("NA");
+
+        public double Cholesterol => TryGet("CHOLE");
+
+        public NutritionInfo()
+        {
+        }
+
+        private double TryGet(string name)
+        {
+            if (Nutrients == null)
+            {
+                return 0;
+            }
+
+            if (Nutrients.TryGetValue(name, out var value))
+            {
+                return value.Quantity;
+            }
+
+            return 0;
+        }
+    }
+
+    public class NutrientDescriptor
+    {
+        public string Label { get; set; }
+
+        public double Quantity { get; set; }
+
+        public string unit { get; set; }
     }
 }

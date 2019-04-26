@@ -14,6 +14,9 @@ namespace FoodAnalyzer
         [JsonProperty("food")]
         public Food Food { get; set; }
 
+        [JsonProperty("warnings")]
+        public string[] Warnings { get; internal set; }
+
         public ResponseObject()
         {
         }
