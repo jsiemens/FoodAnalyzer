@@ -24,17 +24,17 @@ namespace FoodAnalyzer
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             name = name ?? data?.name;
-             
-            //var nutrition = await NutritionClient.GetNutrition(name);
-            //var jsonObj = new ResponseObject()
-            //{
-            //    ShouldIEat = new Random().Next() % 2 == 0,
-            //    NutritionInfo = nutrition
-            //};
 
-            //string json = JsonConvert.SerializeObject(jsonObj);
+            var nutrition = await NutritionClient.GetNutrition(name);
+            var jsonObj = new ResponseObject()
+            {
+                ShouldIEat = new Random().Next() % 2 == 0,
+                NutritionInfo = nutrition
+            };
 
-            return new OkObjectResult(name);
+            string json = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+
+            return new OkObjectResult(json);
         }
     }
 }
